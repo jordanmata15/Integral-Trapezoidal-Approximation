@@ -16,16 +16,18 @@ def crunch_data(filename):
     df = pd.read_csv(filename)
     df["approximation_error"] = (abs(df["pi_approximation"]-math.pi)/math.pi) * 100
     
+    print(df[df["approximation_error"]>2])
+
     # create our plots
-    plot_threads_to_time(df[['num_threads','num_random_points', 'time_elapsed']])
-    plot_points_to_accuracy(df[['approximation_error','num_random_points']])
+    plot_threads_to_time(df[['num_threads','num_trapezoids', 'time_elapsed']])
+    plot_points_to_accuracy(df[['approximation_error','num_trapezoids']])
 
 
 """
 Plot number of threads to the time elapsed. One line for each data size. 
 """
 def plot_threads_to_time(times_df):
-    max_points_mask = times_df["num_random_points"]==max(times_df["num_random_points"])
+    max_points_mask = times_df["num_trapezoids"]==max(times_df["num_trapezoids"])
     df = times_df[max_points_mask][['num_threads', 'time_elapsed']]
 
     # get x/y axis labels
@@ -43,8 +45,8 @@ def plot_threads_to_time(times_df):
     plt.ylabel('Time Elapsed (seconds)')
 
     # plot over all counts of random points
-    for points in times_df['num_random_points'].unique():
-        points_df = times_df[times_df["num_random_points"]==int(points)]
+    for points in times_df['num_trapezoids'].unique():
+        points_df = times_df[times_df["num_trapezoids"]==int(points)]
         #format x/y data for this number of points
         x = points_df['num_threads']
         x_labels=[str(i) for i in x]
@@ -61,11 +63,11 @@ def plot_threads_to_time(times_df):
 Plot number of threads to the time elapsed. One line for each data size. 
 """
 def plot_points_to_accuracy(times_df):
-    df = times_df.groupby("num_random_points").mean()
+    df = times_df.groupby("num_trapezoids").mean()
     df.reset_index(inplace=True)
 
     # get x/y axis labels
-    x = df['num_random_points']
+    x = df['num_trapezoids']
     x_labels=[format(i, ",") for i in x]
     y = df['approximation_error']
     y_labels=[i for i in range(int(max(y)))]
@@ -79,7 +81,7 @@ def plot_points_to_accuracy(times_df):
     plt.ylabel('Average Error (%)')
     ax.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
     plt.xticks(rotation=20)
-    plt.xlabel('# Random Data Points')
+    plt.xlabel('# Trapezoids')
 
     plt.autoscale()
     plt.plot(x_labels, y)
