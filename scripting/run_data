@@ -26,11 +26,11 @@ echo "num_threads,num_trapezoids,pi_approximation,time_elapsed" > $DATA_FILES/ti
 NUM_THREADS=(1 2 4 8 16 32 64 128 256 512)
 for thread_num in ${NUM_THREADS[@]}
 do
-    NUM_POINTS=(1 10 100 1000 10000 100000 1000000)
-    for points in ${NUM_POINTS[@]}
+    NUM_TRAPEZOIDS=(1 10 100 1000 10000 100000 1000000)
+    for trapezoids in ${NUM_TRAPEZOIDS[@]}
     do
-        TIME_OUTPUT=$($BUILD_DIR/$EXE -n $thread_num -p $points)
-        echo "$thread_num,$points,$TIME_OUTPUT" >>  $DATA_FILES/times.csv
+        TIME_OUTPUT=$($BUILD_DIR/$EXE -n $thread_num -p $trapezoids)
+        echo "$thread_num,$trapezoids,$TIME_OUTPUT" >>  $DATA_FILES/times.csv
     done
 
 done
