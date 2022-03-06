@@ -17,7 +17,7 @@ class IntegralApproximation {
     int numThreads;
     int numTrapezoids;
     DataManager* timeManager;
-    std::function<double(double)>* f;
+    std::function<long double(long double)>* f;
 
   public:
 
@@ -32,7 +32,7 @@ class IntegralApproximation {
     IntegralApproximation(int threads,
                           int trapezoids,
                           DataManager* manager,
-                          std::function<double(double)>* f){
+                          std::function<long double(long double)>* f){
       this->setNumTrapezoids(trapezoids);
       this->setNumThreads(threads);
       this->timeManager = manager;
@@ -42,9 +42,11 @@ class IntegralApproximation {
     /**
      * @brief Run the approximation algorithm and record the time elapsed in our timeManager.
      * 
+     * @param x The starting x coordinate of the integral.
+     * @param y The ending x coordinate of the integral.
      * @return long double The approximation of pi.
      */
-    long double runApproximation(double x, double y);
+    long double runApproximation(long double x, long double y);
 
     /**
      * @brief Set the Num Threads object. Enforces numThreads <= numTrapezoids.

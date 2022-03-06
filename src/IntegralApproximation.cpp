@@ -1,7 +1,10 @@
 #include "IntegralApproximation.hpp"
 
+// TODO
+#include <iostream>
 
-long double IntegralApproximation::runApproximation(double x1, double x2){
+
+long double IntegralApproximation::runApproximation(long double x1, long double x2){
   long double globalSum = 0;
 
   // start time benchmark
