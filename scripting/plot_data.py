@@ -15,8 +15,6 @@ def crunch_data(filename):
     # num_threads, num_random_points, pi_approximation, time_elapsed
     df = pd.read_csv(filename)
     df["approximation_error"] = (abs(df["pi_approximation"]-math.pi)/math.pi) * 100
-    
-    print(df[df["approximation_error"]>2])
 
     # create our plots
     plot_threads_to_time(df[['num_threads','num_trapezoids', 'time_elapsed']])
