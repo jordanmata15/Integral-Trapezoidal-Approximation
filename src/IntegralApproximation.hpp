@@ -1,3 +1,6 @@
+#ifndef __INTEGRAL_APPROXIMATION_HPP__
+#define __INTEGRAL_APPROXIMATION_HPP__
+
 #include <functional>
 #include <omp.h>
 #include <random>
@@ -18,6 +21,14 @@ class IntegralApproximation {
 
   public:
 
+    /**
+     * @brief Construct a new Integral Approximation object. Ensures numThreads <= numTrapezoids
+     * 
+     * @param threads The number of threads to parallelize with.
+     * @param trapezoids The number of trapezoids to use in our approximation.
+     * @param manager The time manager object to store the time elapsed.
+     * @param f The function to calculate the integral for.
+     */
     IntegralApproximation(int threads,
                           int trapezoids,
                           DataManager* manager,
@@ -35,14 +46,36 @@ class IntegralApproximation {
      */
     long double runApproximation(double x, double y);
 
+    /**
+     * @brief Set the Num Threads object. Enforces numThreads <= numTrapezoids.
+     * 
+     * @param numThreads The number of threads to parallelize with.
+     */
     void setNumThreads(int numThreads){
       if (numThreads > this->numTrapezoids) this->numThreads = this->numTrapezoids;
       else this->numThreads = numThreads;
     }
 
+    /**
+     * @brief Get the Num Threads count
+     * 
+     * @return int The number of threads to use.
+     */
     int getNumThreads(){return this->numThreads;}
 
+    /**
+     * @brief Set the Num Trapezoids count
+     * 
+     * @param numTrapezoids The number of trapezoids to approximate with.
+     */
     void setNumTrapezoids(int numTrapezoids){this->numTrapezoids = numTrapezoids;}
 
+    /**
+     * @brief Get the Num Trapezoids object
+     * 
+     * @return int The number of trapezoids to use.
+     */
     int getNumTrapezoids(){return this->numTrapezoids;}
 };
+
+#endif // __INTEGRAL_APPROXIMATION_HPP__
