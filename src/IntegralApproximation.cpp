@@ -1,35 +1,38 @@
 #include "IntegralApproximation.hpp"
 
-#include <iomanip>
-#include <iostream>
 
+long double IntegralApproximation::runApproximation(double x1, double x2){
+  long double globalSum = 0;
 
-double IntegralApproximation::runApproximation(int x, int y){
-  double start=0, end=1;
-  double intervalLen = (end-start)/this->numThreads;
-  double sum = 0;
+  struct timeval startTime, endTime, elapsedTime;
+  gettimeofday(&startTime, NULL);
 
-  #pragma omp parallel num_threads(this->numThreads)
+  #pragma omp parallel num_threads(this->getNumThreads()) reduction(+:globalSum)
   {
-    double a,b, fa, fb;
+    long double h, x, localSum;
+    long double threadStart, threadEnd;
+    int localN;
     int threadNum = omp_get_thread_num();
-    a = threadNum * intervalLen;
-    b = a + intervalLen;
-    // TODO if b is the residual (not a full interval)
+    int threadCount = omp_get_num_threads(); // the kernel may assign us less cores than requested. Ask it directly.
 
-    fa = (*f)(a);
-    fb = (*f)(b);
+    h = (x2-x1)/this->getNumTrapezoids();
+    localN = this->getNumTrapezoids()/threadCount;
+    threadStart = x1 + threadNum*localN*h;
+    threadEnd = threadStart + localN*h;
+    localSum = ((*f)(threadStart)+(*f)(threadEnd))/2.0;
 
-    double localArea = ((fa+fb)*intervalLen);
+    for (int i=1; i<=localN-1; ++i){
+      x = threadStart + i*h;
+      localSum += (*f)(x);
+    }
+    localSum *= h;
 
-    #pragma omp critical
-    sum += localArea;
-    /*std::cout << std::fixed << std::setprecision(5) << "Thread: " << threadNum 
-              << ", start: " << a 
-              << ", end: " << b 
-              << std::endl;
-    */     
+    globalSum += localSum;
   }
-  return sum/2;
 
+  gettimeofday(&endTime, NULL);
+  timersub(&endTime, &startTime, &elapsedTime);
+  timeManager->recordTime(&elapsedTime);
+
+  return globalSum;
 }
