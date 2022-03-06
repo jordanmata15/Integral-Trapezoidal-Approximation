@@ -1,5 +1,6 @@
 #include "ArgParser.hpp"
 
+
 int ArgParser::readInt(char* value){
   // https://stackoverflow.com/questions/46208837/c-using-isdigit-to-check-if-optarg-is-a-digit
   char *end;
@@ -11,6 +12,7 @@ int ArgParser::readInt(char* value){
   }
   return intValue;
 }
+
 
 Arguments* ArgParser::parseArgs(int argc, char** argv){
   int option;

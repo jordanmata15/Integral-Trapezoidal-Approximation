@@ -4,6 +4,7 @@
 long double IntegralApproximation::runApproximation(double x1, double x2){
   long double globalSum = 0;
 
+  // start time benchmark
   struct timeval startTime, endTime, elapsedTime;
   gettimeofday(&startTime, NULL);
 
@@ -13,7 +14,7 @@ long double IntegralApproximation::runApproximation(double x1, double x2){
     long double threadStart, threadEnd;
     int localN;
     int threadNum = omp_get_thread_num();
-    int threadCount = omp_get_num_threads(); // the kernel may assign us less cores than requested. Ask it directly.
+    int threadCount = omp_get_num_threads(); // the kernel may assign us less cores than requested. Get actual count.
 
     h = (x2-x1)/this->getNumTrapezoids();
     localN = this->getNumTrapezoids()/threadCount;
@@ -30,6 +31,7 @@ long double IntegralApproximation::runApproximation(double x1, double x2){
     globalSum += localSum;
   }
 
+  // end time benchmark
   gettimeofday(&endTime, NULL);
   timersub(&endTime, &startTime, &elapsedTime);
   timeManager->recordTime(&elapsedTime);
