@@ -23,7 +23,7 @@ make -C $SRC_DIR > $BUILD_OUTPUT > $BUILD_OUTPUT
 # overwrite old files with new header
 echo "num_threads,num_trapezoids,pi_approximation,time_elapsed" > $DATA_FILES/times.csv
 
-NUM_THREADS=(1 2 4 8 16 32 64 128 256 512)
+NUM_THREADS=(1 2 4 5 10 20 100 250 500)
 for thread_num in ${NUM_THREADS[@]}
 do
     NUM_TRAPEZOIDS=(1 10 100 1000 10000 100000 1000000)
