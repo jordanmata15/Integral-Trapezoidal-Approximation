@@ -1,6 +1,7 @@
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib.ticker import FormatStrFormatter, StrMethodFormatter
+from matplotlib.ticker import FormatStrFormatter
 import math
 import os
 import sys
@@ -28,19 +29,17 @@ def plot_threads_to_time(times_df):
     max_points_mask = times_df["num_trapezoids"]==max(times_df["num_trapezoids"])
     df = times_df[max_points_mask][['num_threads', 'time_elapsed']]
 
+    y_max=df["time_elapsed"].max()#0.025
+
     # get x/y axis labels
-    x = df['num_threads']
-    y = df['time_elapsed']
-    x_labels=[format(i, ",") for i in x]
-    y_labels=[i+1 for i in range(int(max(y))+1)]
+    y_labels = np.arange(0, y_max, y_max/5)
 
     # format the plot
     fig, ax = plt.subplots(1,1)
-    ax.set_ylim(ymin=0)
     ax.set_yticks(y_labels)
-    ax.set_yticklabels(y_labels)
     plt.xlabel('Number of Threads')
     plt.ylabel('Time Elapsed (seconds)')
+    plt.grid()
 
     # plot over all counts of random points
     for points in times_df['num_trapezoids'].unique():
@@ -51,8 +50,8 @@ def plot_threads_to_time(times_df):
         y = points_df['time_elapsed']
 
         plt.plot(x_labels, y, label=format(points, ","))
-        ax.legend()
-
+    
+    ax.legend(title="# Trapezoids")
     fig.savefig(os.path.join(data_path, "Plot_Threads_Time.pdf"), bbox_inches = "tight")
 
 
@@ -81,6 +80,7 @@ def plot_points_to_accuracy(times_df):
     plt.xticks(rotation=20)
     plt.xlabel('# Trapezoids')
 
+    plt.grid()
     plt.autoscale()
     plt.plot(x_labels, y)
     plt.savefig(os.path.join(data_path, "Plot_Points_Accuracy.pdf"), bbox_inches = "tight")
