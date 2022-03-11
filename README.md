@@ -1,6 +1,6 @@
 # Integral-Trapezoidal-Approximation
 ## Description
-An approximation of an integral using the trapezoidal rule on parallel threads. We demonstrate this using the integral of the function `(1/1+x*x)` over [0,1] to approximate pi. By increasing the number of trapezoids, we can increase the accuracy of the algorithm. We reduce the runtime using more threads (we enforce #Threads < #Trapezoids as there is no added benefit for more threads).
+An approximation of an integral using the trapezoidal rule on parallel threads. We demonstrate this using the integral of the function `1/(1+x*x)` over [0,1] to approximate pi. By increasing the number of trapezoids, we can increase the accuracy of the algorithm. We reduce the runtime using more threads (we enforce #Threads < #Trapezoids as there is no added benefit for more threads).
 
 ## Usage
 The following flags can be passed in when running the binary to manually set the number of threads or trapezoids used. Both are required to be an integer greater than 0.<br>
