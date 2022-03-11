@@ -12,4 +12,4 @@ The following will approximate pi with 1000 trapezoids and split the work to 8 t
 ./IntegralApproximation -p 8 -n 1000
 
 ## Notes
-The algorithm is accurate when the number of threads evenly divides the number of trapezoids (ie. #Trapezoids % #Threads == 0). The algorithm loses accuracy otherwise.
+The algorithm is accurate when the number of threads evenly divides the number of trapezoids (ie. ```#Trapezoids % #Threads == 0```). The algorithm loses accuracy otherwise.
