@@ -39,7 +39,7 @@ def plot_threads_to_time(times_df):
         x = local_df['num_threads']
         x_labels=[str(i) for i in x]
         y = local_df['time_elapsed']
-        ax.set_title("Number of Trapezoids: " + str(size) +"^2", color="red")
+        ax.set_title("Number of Trapezoids: " + str(size), color="red")
         ax.plot(x_labels, y)
 
     fig.set_size_inches(18.5, 10.5)
