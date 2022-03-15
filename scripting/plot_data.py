@@ -82,8 +82,7 @@ def plot_trapezoids_to_accuracy(times_df):
 
     plt.autoscale()
     plt.plot(x_labels, y)
-    plt.savefig(os.path.join(data_path, "Plot_Points_Accuracy.pdf"), bbox_inches = "tight")
-
+    plt.savefig(os.path.join(data_path, "Plot_Accuracy.pdf"), bbox_inches = "tight")
 
 
 if __name__=="__main__":
