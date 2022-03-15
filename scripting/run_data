@@ -35,4 +35,4 @@ do
 
 done
 
-python3 $PACKAGE_DIR/scripting/plot_data.py
+#python3 $PACKAGE_DIR/scripting/plot_data.py
